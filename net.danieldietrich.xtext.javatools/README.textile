@@ -1,0 +1,55 @@
+h1. Xtext 2.0.1 Java Tools
+
+h2. Purpose
+
+The Xtext 2 Java Tools provide a handy base for daily tasks implementing Java generators
+with Xtext + Xtend 2.
+
+h2. Features
+
+h3. Headless (aka Standalone) Generator
+
+/*TODO*/
+
+h3. Slots
+
+/*TODO*/
+
+h3. Protected Region Support
+
+/*TODO*/
+
+h3. Generation Gap Pattern Support
+
+"John Vlissides, 1996":http://www.research.ibm.com/designpatterns/pubs/gg.html
+"Heiko Behrens, 2009":http://heikobehrens.net/2009/04/23/generation-gap-pattern/
+"Ekkehard 'Ekke' Gentz, 2009":http://ekkes-corner.blogspot.com/2009/05/new-ways-around-generation-gap-pattern.html
+
+/*TODO*/
+
+h2. Setup
+
+1. Clone project via git. Url: @git@github.com:danieldietrich/net.danieldietrich.xtext.javatools.git@
+2. Run Maven @mvn eclipse:eclipse@ to generate eclipse project files
+
+h2. Project Contents
+
+* src/net.danieldietrich.xtext.generator
+    Contains a StandaloneGenerator with support for generator slots and directory cleanup
+    and a special implementation of IFileSystemAccess with protected region support.
+* src/net.danieldietrich.xtext.generator.jvmmodel
+    There are cases, where it is necessary to distinguish between different kinds of
+    model elements. When using Xbase as basis for a dsl for example, one would
+    like to generate model types to different Java packages. In this case the
+    JvmModelInferrer has to create InferredJvmTypes for model elements. The @ImportManager@
+    shipped with the Xtext Java Tools, along with a name converter, is able to accomplish
+    this task super easy.
+* src/net.danieldietrich.xtext.generator.javasupport
+    The javasupport package consists of a JavaGenerator which takes care of generating
+    java files in a default manner (DRY principle) and a xtend extension for java names.
+* src/net.danieldietrich.xtext.generator.javasupport.imports
+    Functionality for shorten full qualified Java names and creating an appropriate
+    Java import section, mostly based on the implementation by Jan Koehnlein.
+    Additionally model types (in contrast to plain Java types) are treated in a special way.
+* src/net.danieldietrich.xtext.generator.javasupport.types
+    Enhances inferred jvm model.

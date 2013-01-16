@@ -1,0 +1,28 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Xtext Java Tools
+Bundle-Vendor: Daniel Dietrich
+Bundle-Version: 1.0.0.qualifier
+Bundle-SymbolicName: net.danieldietrich.xtext.javatools;singleton:=true
+Bundle-ActivationPolicy: lazy
+Import-Package: com.google.common.collect;version="1.0.0",
+ com.google.inject;version="1.2.0",
+ net.danieldietrich.protectedregions.core,
+ org.eclipse.emf.common.notify,
+ org.eclipse.emf.common.util,
+ org.eclipse.emf.ecore,
+ org.eclipse.emf.ecore.resource,
+ org.eclipse.xtext.builder,
+ org.eclipse.xtext.common.types,
+ org.eclipse.xtext.generator,
+ org.eclipse.xtext.util,
+ org.eclipse.xtext.validation,
+ org.eclipse.xtext.xbase.compiler,
+ org.hamcrest;version="1.1.0";resolution:=optional,
+ org.hamcrest.core;version="1.1.0";resolution:=optional,
+ org.junit;version="4.8.2";resolution:=optional
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Export-Package: net.danieldietrich.xtext.generator,
+ net.danieldietrich.xtext.xbase.jvmmodel;uses:="org.eclipse.emf.ecore,org.eclipse.xtext.common.types",
+ net.danieldietrich.xtext.xtend2.javasupport.imports;uses:="org.eclipse.xtext.xbase.compiler,org.eclipse.xtext.common.types"
+Require-Bundle: org.eclipse.xtext.xtend2.lib;bundle-version="2.0.1"

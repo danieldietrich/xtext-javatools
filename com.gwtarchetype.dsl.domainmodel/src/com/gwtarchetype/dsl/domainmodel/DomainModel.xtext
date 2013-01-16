@@ -1,0 +1,74 @@
+grammar com.gwtarchetype.dsl.domainmodel.DomainModel with org.eclipse.xtext.xbase.Xbase
+
+generate domainModel "http://www.gwtarchetype.com/dsl/domainmodel/DomainModel"
+
+/**
+ * HOWTO:
+ * o Changes to this DSL have to be reflected in ./jvmmodel/DomainModelJvmModelInferrer.xtend
+ */
+
+// TODO(@@dd):
+// o More than one AppRequestFactory?
+//   -> map productRequestFactory to com.fysell.shared.requestfactory.product.ProductRequestFactory
+// o introduce AbstractElement 'Service'
+// o introduce AbstractElement 'ValueProxy'
+//   -> Entities may depend on ValueProxies (which are @Embedded then)
+//   -> if Entities depend on Entities they are @Mapped to the opposite
+// o introduce (RequestFactory) Services (using ValueProxies)
+// o model 1:1 1:n n:m relations
+
+DomainModel:
+  "basepkg" basePackage=QualifiedName ';'
+  elements+=AbstractElement*;
+
+AbstractElement:
+  PackageDeclaration | Import | Entity | Value | Service;
+
+Import:
+  'import' importedNamespace=QualifiedNameWithWildCard ';';
+
+PackageDeclaration:
+  'package' name=QualifiedName '{'
+    elements+=AbstractElement*
+  '}';
+
+Entity:
+  'entity' name=ValidID ('extends' superType=JvmTypeReference)? '{'
+    features+=Feature*
+  '}';
+  
+Value:
+  'value' name=ValidID ('extends' superType=JvmTypeReference)? '{'
+    properties+=Property*
+  '}';
+
+Service:
+  'service' name=ValidID ('extends' superType=JvmTypeReference)? '{'
+    operations+=Operation*
+  '}';
+
+Feature:
+  =>Property | OperationWithQuery;
+
+Property:
+  type=JvmTypeReference name=ValidID ';';
+
+OperationWithQuery:
+   visibility=Visibility? type=JvmTypeReference? name=ValidID '('
+    (params+=JvmFormalParameter (',' params+=JvmFormalParameter)*)?
+  ')' (':' query=JAVA_STRING)? ';';
+
+Operation:
+   visibility=Visibility? type=JvmTypeReference? name=ValidID '('
+    (params+=JvmFormalParameter (',' params+=JvmFormalParameter)*)?
+  ')' ';';
+
+// can't use enum because there is no null value for the case that visibility is omited
+Visibility:
+  'default' | 'protected';
+
+QualifiedNameWithWildCard:
+  QualifiedName  ('.' '*')?;
+
+terminal JAVA_STRING:
+  '"' ( '\\' ('b'|'t'|'n'|'f'|'r'|'u'|'"'|"'"|'\\') | !('\\'|'"') )* '"';

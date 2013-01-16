@@ -1,0 +1,54 @@
+basepkg net.danieldietrich.example;
+
+import java.util.List;
+
+package product {
+
+  entity Product {
+    String ^name;
+    String tags;
+    String findLikeName(String ^name) : "from Product p where lower(name) like lower('%' + :name + '%') order by name";
+  }
+  
+}
+
+package user {
+
+  entity Registration {
+  
+    String email;
+    String activation;
+    boolean finished;
+    // TODO(@@dd): introduce timeout / deadline
+    
+    List<Registration> findByEmail(String email);     // generated in DAOLocal because of public, not in DAO because no query
+  }
+
+  value ActivationMail {
+    String email;
+    String baseUrl;
+  }
+
+  service RegistrationService {
+    sendActivationUrl(String email, String baseUrl);
+    sendActivationUrl(ActivationMail activationMail);
+  }
+  
+  entity Profile {
+    /*@NotNull*/ String firstName;
+    /*@NotNull*/ String lastName;
+    String job;
+    String company;
+    List<String> phones;
+    List<String> emails;
+    List<Address> addresses;
+  }
+  
+  entity Address {
+    String street;
+    String zip;
+    String city;
+    String country;
+  }
+  
+}
